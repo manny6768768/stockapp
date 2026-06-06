@@ -1,32 +1,50 @@
 {% extends "template.html" %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="dashboard">
-    <h2>Predicciones para QQQ</h2>
-    <div class="predictions">
-        <h2>Gráfico de Predicciones QQQ</h2>
-        <canvas id="predChart" width="400" height="200"></canvas>
 
-        <div class="pred-info">
-            <h3>Precio actual</h3>
-            <p id="current-price">Cargando...</p>
-
-            <h3>Predicción a 3 días</h3>
-            <p id="pred-3d">Cargando...</p>
-
-            <h3>Predicción a 5 días</h3>
-            <p id="pred-5d">Cargando...</p>
-
-            <h3>Predicción a 10 días</h3>
-            <p id="pred-10d">Cargando...</p>
+    <div class="dash-header">
+        <div class="dash-title">
+            <h1>QQQ Predictor</h1>
+            <span>LSTM + XGBoost · Datos históricos diarios</span>
+        </div>
+        <div class="dash-price">
+            <span>Precio actual</span>
+            <p id="current-price">—</p>
+        </div>
     </div>
+
+    <div class="chart-card">
+        <canvas id="predChart"></canvas>
+    </div>
+
+    <p class="model-note">
+        El modelo predice con mayor fiabilidad la <strong>magnitud del movimiento</strong> que su dirección — toma el valor absoluto como referencia principal.
+    </p>
+
+    <div class="pred-cards">
+        <div class="pred-card">
+            <span class="pred-label">3 días</span>
+            <p id="pred-3d" class="pred-value">—</p>
+        </div>
+        <div class="pred-card">
+            <span class="pred-label">5 días</span>
+            <p id="pred-5d" class="pred-value">—</p>
+        </div>
+        <div class="pred-card">
+            <span class="pred-label">10 días</span>
+            <p id="pred-10d" class="pred-value">—</p>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

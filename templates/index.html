@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -13,6 +13,10 @@
         Utiliza modelos de aprendizaje automático entrenados sobre datos diarios para estimar tanto
         la magnitud como la dirección del próximo movimiento.
     </p>
-    <a href="/home" >Ver el Producto</a>
+    <a href="/home">Ver el Producto</a>
+    <small class="disclaimer">
+        Las predicciones son orientativas y se basan en modelos estadísticos.<br>
+        No constituyen asesoramiento financiero. Invierte con responsabilidad.
+    </small>
 </div>
 {% endblock %}

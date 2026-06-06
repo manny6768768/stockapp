@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, jsonify
-from helpers import *
 from yfinance import download
 from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 
 app = Flask(__name__)
+
+PREDICTIONS = []
 
 def load_data():
     df_qqq = download("QQQ", period="max", interval="1d")
@@ -23,7 +24,11 @@ def load_data():
 
 DF_CACHE = load_data()
 
+# Import helpers after data is loaded — TensorFlow modifies SSL state and breaks yfinance
+from helpers import *
+
 def refresh_data():
+    PREDICTIONS.clear()
     global DF_CACHE
     DF_CACHE = load_data()
     print("Data refreshed")
@@ -33,17 +38,21 @@ scheduler.add_job(refresh_data, 'cron', hour='9,17')
 scheduler.start()
 
 
-@app.route('/data', methods=['POST'])
+@app.route('/data', methods=['GET', 'POST'])
 def data_route():
     df = DF_CACHE[['Date', 'Close']].copy()
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
     return jsonify(df.to_dict(orient='records'))
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict_route():
+
+    if PREDICTIONS:
+        return jsonify(PREDICTIONS[-1])
+
     look_back = 60
     X_mag, X_dir, dates = preprocess_data(DF_CACHE, look_back)
-    predictions = predict(X_mag, X_dir)
+    predictions = predict(X_mag[-1:], X_dir[-1:])
 
     response = {
         "dates": [d.strftime('%Y-%m-%d') for d in dates.tolist()],  
@@ -56,6 +65,9 @@ def predict_route():
             "dir_10d": [1 if p > 0.5 else -1 for p in predictions["prob_10d"]],
         }
     }
+
+    PREDICTIONS.append(response)  
+
     return jsonify(response)
 
 @app.route('/')
