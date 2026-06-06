@@ -5,6 +5,13 @@ import pandas as pd
 
 app = Flask(__name__)
 
+@app.after_request
+def set_security_headers(response):
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
+
 PREDICTIONS = []
 
 def load_data():
@@ -38,13 +45,13 @@ scheduler.add_job(refresh_data, 'cron', hour='9,17')
 scheduler.start()
 
 
-@app.route('/data', methods=['GET', 'POST'])
+@app.route('/data', methods=['GET'])
 def data_route():
     df = DF_CACHE[['Date', 'Close']].copy()
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
     return jsonify(df.to_dict(orient='records'))
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict', methods=['POST'])
 def predict_route():
 
     if PREDICTIONS:
@@ -81,4 +88,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=False, use_reloader=False)
