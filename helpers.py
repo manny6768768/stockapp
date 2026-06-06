@@ -90,21 +90,17 @@ def preprocess_data(df, look_back=60):
 
     d = d[list(set(features_mag + features_dir + ['Date']))]
 
-    X_mag, X_dir, dates = [], [], []
-    for i in range(look_back, len(d)):
-        X_mag.append(d[features_mag].iloc[i-look_back+1:i+1].values)
-        X_dir.append(d[features_dir].iloc[i-look_back+1:i+1].values)
-        dates.append(d['Date'].iloc[i])
-
-    X_mag = np.array(X_mag)
-    X_dir = np.array(X_dir)
+    last = len(d) - 1
+    X_mag = d[features_mag].iloc[last-look_back+1:last+1].values[np.newaxis, :, :]
+    X_dir = d[features_dir].iloc[last-look_back+1:last+1].values[np.newaxis, :, :]
+    dates = np.array([d['Date'].iloc[last]])
 
     n, lb, nf_mag = X_mag.shape
     n, lb, nf_dir = X_dir.shape
     X_mag = scaler_mag.transform(X_mag.reshape(-1, nf_mag)).reshape(n, lb, nf_mag)
     X_dir = scaler_dir.transform(X_dir.reshape(-1, nf_dir)).reshape(n, lb, nf_dir)
 
-    return X_mag, X_dir, np.array(dates)
+    return X_mag, X_dir, dates
 
 def predict(X_mag, X_dir):
     raw = mag_model.predict(X_mag, verbose=0)          # (n, 3)

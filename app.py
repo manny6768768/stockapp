@@ -59,7 +59,7 @@ def predict_route():
 
     look_back = 60
     X_mag, X_dir, dates = preprocess_data(DF_CACHE, look_back)
-    predictions = predict(X_mag[-1:], X_dir[-1:])
+    predictions = predict(X_mag, X_dir)
     del X_mag, X_dir
 
     response = {
