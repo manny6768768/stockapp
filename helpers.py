@@ -1,4 +1,6 @@
 import tensorflow as tf
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
 from tensorflow.keras.layers import Layer
 from tensorflow.keras.models import load_model
 import numpy as np
@@ -85,6 +87,8 @@ def preprocess_data(df, look_back=60):
         'SMA_cross', 'Price_vs_SMA50',
         'VIX_Return', 'VIX_Ratio',
     ]
+
+    d = d[list(set(features_mag + features_dir + ['Date']))]
 
     X_mag, X_dir, dates = [], [], []
     for i in range(look_back, len(d)):

@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const pred_processed = calculatePrice(predictionData, currentPrice);
     buildscatterplot(data, predictionData);
     updateinfo(pred_processed, currentPrice);
+
+    document.getElementById('dashboard').classList.remove('loading');
 });
 
 function calculatePrice(predictionData, currentPrice) {

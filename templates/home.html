@@ -1,5 +1,6 @@
 {% extends "template.html" %}
 
+{% block title %}Demo{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
@@ -10,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="dashboard">
+<div class="dashboard loading" id="dashboard">
 
     <div class="dash-header">
         <div class="dash-title">

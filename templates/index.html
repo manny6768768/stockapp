@@ -1,12 +1,12 @@
 {% extends "template.html" %}
-
+{% block title %}Financr{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="description">
-    <h2>Financr — QQQ & VIX Predictor</h2>
+    <h2>Financr — QQQ Predictor</h2>
     <p>
         Financr analiza el histórico del ETF <strong>QQQ</strong> y el índice de volatilidad
         <strong>VIX</strong> para predecir el movimiento del mercado a <strong>3, 5 y 10 días</strong>.
