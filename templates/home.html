@@ -1,0 +1,32 @@
+{% extends "template.html" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Predicciones para QQQ</h2>
+    <div class="predictions">
+        <h2>Gráfico de Predicciones QQQ</h2>
+        <canvas id="predChart" width="400" height="200"></canvas>
+
+        <div class="pred-info">
+            <h3>Precio actual</h3>
+            <p id="current-price">Cargando...</p>
+
+            <h3>Predicción a 3 días</h3>
+            <p id="pred-3d">Cargando...</p>
+
+            <h3>Predicción a 5 días</h3>
+            <p id="pred-5d">Cargando...</p>
+
+            <h3>Predicción a 10 días</h3>
+            <p id="pred-10d">Cargando...</p>
+    </div>
+</div>
+{% endblock %}

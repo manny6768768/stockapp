@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="description">
+    <h2>Financr — QQQ & VIX Predictor</h2>
+    <p>
+        Financr analiza el histórico del ETF <strong>QQQ</strong> y el índice de volatilidad
+        <strong>VIX</strong> para predecir el movimiento del mercado a <strong>3, 5 y 10 días</strong>.
+        Utiliza modelos de aprendizaje automático entrenados sobre datos diarios para estimar tanto
+        la magnitud como la dirección del próximo movimiento.
+    </p>
+    <a href="/home" >Ver el Producto</a>
+</div>
+{% endblock %}
