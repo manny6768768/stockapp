@@ -15,8 +15,8 @@ def set_security_headers(response):
 PREDICTIONS = []
 
 def load_data():
-    df_qqq = download("QQQ", period="max", interval="1d")
-    df_vix = download("^VIX", period="max", interval="1d")
+    df_qqq = download("QQQ", period="2y", interval="1d")
+    df_vix = download("^VIX", period="2y", interval="1d")
     df_qqq.reset_index(inplace=True)
     df_vix.reset_index(inplace=True)
     if isinstance(df_qqq.columns, pd.MultiIndex):
