@@ -34,10 +34,35 @@ DF_CACHE = load_data()
 # Import helpers after data is loaded — TensorFlow modifies SSL state and breaks yfinance
 from helpers import *
 
-def refresh_data():
+def compute_prediction():
+    look_back = 60
+    X_mag, X_dir, dates = preprocess_data(DF_CACHE, look_back)
+    predictions = predict(X_mag, X_dir)
+    del X_mag, X_dir
+
+    response = {
+        "dates": [d.strftime('%Y-%m-%d') for d in dates.tolist()],
+        "predictions": {
+            "move_3d":  predictions["move_3d"].tolist(),
+            "move_5d":  predictions["move_5d"].tolist(),
+            "move_10d": predictions["move_10d"].tolist(),
+            "dir_3d":  [1 if p > 0.5 else -1 for p in predictions["prob_3d"]],
+            "dir_5d":  [1 if p > 0.5 else -1 for p in predictions["prob_5d"]],
+            "dir_10d": [1 if p > 0.5 else -1 for p in predictions["prob_10d"]],
+        }
+    }
     PREDICTIONS.clear()
+    PREDICTIONS.append(response)
+
+# Compute the prediction once at boot — keeps it off the request path so a live
+# /predict call never has to do the heavy LSTM/XGBoost work (and risk the worker
+# getting killed for running past gunicorn's timeout / the instance's memory limit).
+compute_prediction()
+
+def refresh_data():
     global DF_CACHE
     DF_CACHE = load_data()
+    compute_prediction()
     print("Data refreshed")
 
 scheduler = BackgroundScheduler()
@@ -53,30 +78,7 @@ def data_route():
 
 @app.route('/predict', methods=['POST'])
 def predict_route():
-
-    if PREDICTIONS:
-        return jsonify(PREDICTIONS[-1])
-
-    look_back = 60
-    X_mag, X_dir, dates = preprocess_data(DF_CACHE, look_back)
-    predictions = predict(X_mag, X_dir)
-    del X_mag, X_dir
-
-    response = {
-        "dates": [d.strftime('%Y-%m-%d') for d in dates.tolist()],  
-        "predictions": {
-            "move_3d":  predictions["move_3d"].tolist(),
-            "move_5d":  predictions["move_5d"].tolist(),
-            "move_10d": predictions["move_10d"].tolist(),
-            "dir_3d":  [1 if p > 0.5 else -1 for p in predictions["prob_3d"]],
-            "dir_5d":  [1 if p > 0.5 else -1 for p in predictions["prob_5d"]],
-            "dir_10d": [1 if p > 0.5 else -1 for p in predictions["prob_10d"]],
-        }
-    }
-
-    PREDICTIONS.append(response)  
-
-    return jsonify(response)
+    return jsonify(PREDICTIONS[-1])
 
 @app.route('/')
 def index():
