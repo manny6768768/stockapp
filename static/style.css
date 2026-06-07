@@ -50,52 +50,50 @@ body {
 .blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(95px);
+    filter: blur(70px);
     opacity: .6;
     mix-blend-mode: screen;
-    will-change: transform, border-radius;
-    animation: blobDrift ease-in-out infinite alternate,
-               blobMorph ease-in-out infinite alternate;
+    will-change: transform;
+    animation: blobDrift ease-in-out infinite alternate;
 }
 
 .blob-cyan {
     width: 620px; height: 620px;
     top: -180px; left: -160px;
     background: radial-gradient(circle, rgba(56,189,248,.55) 0%, transparent 70%);
-    animation-duration: 30s, 21s;
+    animation-duration: 30s;
 }
 .blob-violet {
     width: 540px; height: 540px;
     top: -120px; right: -140px;
     background: radial-gradient(circle, rgba(167,139,250,.45) 0%, transparent 70%);
-    animation-duration: 34s, 24s;
-    animation-delay: -8s, -4s;
+    animation-duration: 34s;
+    animation-delay: -8s;
 }
 .blob-emerald {
     width: 480px; height: 480px;
     bottom: -160px; left: 12%;
     background: radial-gradient(circle, rgba(16,185,129,.32) 0%, transparent 70%);
-    animation-duration: 32s, 26s;
-    animation-delay: -16s, -10s;
+    animation-duration: 32s;
+    animation-delay: -16s;
 }
 .blob-gold {
     width: 440px; height: 440px;
     bottom: -140px; right: -100px;
     background: radial-gradient(circle, rgba(245,158,11,.3) 0%, transparent 70%);
-    animation-duration: 36s, 22s;
-    animation-delay: -5s, -14s;
+    animation-duration: 36s;
+    animation-delay: -5s;
 }
 
 @keyframes blobDrift {
-    0%   { transform: translate(0, 0)        scale(1); }
-    50%  { transform: translate(70px, 50px)  scale(1.15); }
-    100% { transform: translate(-40px, 85px) scale(0.94); }
+    0%   { transform: translate(0, 0)        scale(1)     rotate(0deg); }
+    50%  { transform: translate(70px, 50px)  scale(1.15)  rotate(8deg); }
+    100% { transform: translate(-40px, 85px) scale(0.94)  rotate(-6deg); }
 }
-@keyframes blobMorph {
-    0%   { border-radius: 50% 50% 50% 50%; }
-    33%  { border-radius: 62% 38% 56% 44%; }
-    66%  { border-radius: 44% 56% 38% 62%; }
-    100% { border-radius: 50% 50% 50% 50%; }
+
+@media (prefers-reduced-motion: reduce) {
+    .blob { animation: none; }
+    html { scroll-behavior: auto; }
 }
 
 @keyframes pageFade {
