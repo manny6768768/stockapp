@@ -98,22 +98,6 @@ body {
     100% { border-radius: 50% 50% 50% 50%; }
 }
 
-/* Subtle sheen sweeping across the whole page for a premium "glass" feel */
-body::after {
-    content: '';
-    position: fixed;
-    inset: -60% -20%;
-    z-index: 4;
-    background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.025) 50%, transparent 62%);
-    pointer-events: none;
-    animation: sheenSweep 16s ease-in-out infinite;
-}
-
-@keyframes sheenSweep {
-    0%, 100% { transform: translate(-18%, -12%); }
-    50%      { transform: translate(18%, 12%); }
-}
-
 @keyframes pageFade {
     from { opacity: 0; }
     to   { opacity: 1; }
