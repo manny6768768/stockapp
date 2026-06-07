@@ -28,7 +28,7 @@ scaler_dir = load(open("models/qqq_scaler_dir.pkl", "rb"))
 
 # Trigger Keras graph tracing/compilation now (at boot) instead of on the first
 # live request, where it can blow past gunicorn's worker timeout and get killed.
-mag_model.predict(np.zeros((1, 60, scaler_mag.n_features_in_), dtype=np.float32), verbose=0)
+mag_model.predict(np.zeros((1, 60, scaler_mag.n_features_in_)), verbose=0)
 
 MAG_MEAN = 0.01313
 MAG_STD  = 0.00890 
