@@ -53,24 +53,34 @@ body {
 }
 
 .blob-cyan {
-    width: 620px; height: 620px;
-    top: -200px; left: -180px;
+    width: 780px; height: 780px;
+    top: -260px; left: -240px;
     background: radial-gradient(circle, rgba(56,189,248,.55) 0%, transparent 70%);
 }
 .blob-violet {
-    width: 540px; height: 540px;
-    top: -90px; right: -160px;
+    width: 680px; height: 680px;
+    top: -140px; right: -220px;
     background: radial-gradient(circle, rgba(167,139,250,.45) 0%, transparent 70%);
 }
 .blob-emerald {
-    width: 480px; height: 480px;
-    bottom: -190px; left: 10%;
+    width: 620px; height: 620px;
+    bottom: -250px; left: 6%;
     background: radial-gradient(circle, rgba(16,185,129,.32) 0%, transparent 70%);
 }
 .blob-gold {
-    width: 440px; height: 440px;
-    bottom: -160px; right: -120px;
+    width: 560px; height: 560px;
+    bottom: -210px; right: -160px;
     background: radial-gradient(circle, rgba(245,158,11,.3) 0%, transparent 70%);
+}
+.blob-magenta {
+    width: 520px; height: 520px;
+    top: 28%; left: 36%;
+    background: radial-gradient(circle, rgba(217,70,239,.32) 0%, transparent 70%);
+}
+.blob-indigo {
+    width: 600px; height: 600px;
+    top: 6%; left: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,.34) 0%, transparent 70%);
 }
 
 @keyframes pageFade {
